@@ -39,6 +39,20 @@ class QueryHandlerLocatorTest extends TestCase
 
     /**
      * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidQueryHandlerException
+     * @expectedExceptionMessage Only one query handler allowed, 2 given
+     */
+    public function testInvalidQueryHandlersCount(): void
+    {
+        $commandMap = [QueryStub::class => ['', '']];
+        $envelope = new Envelope(new \stdClass());
+
+        foreach ((new QueryHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
+            continue;
+        }
+    }
+
+    /**
+     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidQueryHandlerException
      * @expectedExceptionMessage Query handler must implement Gears\CQRS\QueryHandler interface, string given
      */
     public function testInvalidQueryHandler(): void
@@ -54,7 +68,7 @@ class QueryHandlerLocatorTest extends TestCase
     public function testQueryHandler(): void
     {
         $commandHandler = new QueryHandlerStub();
-        $commandMap = [QueryStub::class => [$commandHandler]];
+        $commandMap = [QueryStub::class => $commandHandler];
         $envelope = new Envelope(QueryStub::instance());
 
         foreach ((new QueryHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {

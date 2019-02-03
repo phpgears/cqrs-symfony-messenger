@@ -42,6 +42,13 @@ class CommandHandlerLocator implements HandlersLocatorInterface
                     $handler = [$handler];
                 }
 
+                if (\count($handler) !== 1) {
+                    throw new InvalidCommandHandlerException(\sprintf(
+                        'Only one command handler allowed, %s given',
+                        \count($handler)
+                    ));
+                }
+
                 return $handler;
             },
             $handlers

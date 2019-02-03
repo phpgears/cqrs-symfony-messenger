@@ -39,6 +39,20 @@ class CommandHandlerLocatorTest extends TestCase
 
     /**
      * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidCommandHandlerException
+     * @expectedExceptionMessage Only one command handler allowed, 2 given
+     */
+    public function testInvalidCommandHandlersCount(): void
+    {
+        $commandMap = [CommandStub::class => ['', '']];
+        $envelope = new Envelope(new \stdClass());
+
+        foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
+            continue;
+        }
+    }
+
+    /**
+     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidCommandHandlerException
      * @expectedExceptionMessage Command handler must implement Gears\CQRS\CommandHandler interface, string given
      */
     public function testInvalidCommandHandler(): void
@@ -54,7 +68,7 @@ class CommandHandlerLocatorTest extends TestCase
     public function testCommandHandler(): void
     {
         $commandHandler = new CommandHandlerStub();
-        $commandMap = [CommandStub::class => [$commandHandler]];
+        $commandMap = [CommandStub::class => $commandHandler];
         $envelope = new Envelope(CommandStub::instance());
 
         foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {

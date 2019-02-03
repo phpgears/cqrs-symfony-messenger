@@ -44,7 +44,7 @@ class QueryHandlerLocator implements HandlersLocatorInterface
 
                 if (\count($handler) !== 1) {
                     throw new InvalidQueryHandlerException(\sprintf(
-                        'Only one query handler allows, %s given',
+                        'Only one query handler allowed, %s given',
                         \count($handler)
                     ));
                 }

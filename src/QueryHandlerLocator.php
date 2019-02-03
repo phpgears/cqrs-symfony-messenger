@@ -36,6 +36,24 @@ class QueryHandlerLocator implements HandlersLocatorInterface
      */
     public function __construct(array $handlers)
     {
+        $handlers = \array_map(
+            function ($handler) {
+                if (!\is_array($handler)) {
+                    $handler = [$handler];
+                }
+
+                if (\count($handler) !== 1) {
+                    throw new InvalidQueryHandlerException(\sprintf(
+                        'Only one query handler allows, %s given',
+                        \count($handler)
+                    ));
+                }
+
+                return $handler;
+            },
+            $handlers
+        );
+
         $this->handlersMap = $handlers;
     }
 
@@ -58,8 +76,12 @@ class QueryHandlerLocator implements HandlersLocatorInterface
                     ));
                 }
 
-                if (!\in_array($handler, $seen, true)) {
-                    yield $alias => $seen[] = $handler;
+                $handlerCallable = function (Query $query) use ($handler) {
+                    return $handler->handle($query);
+                };
+
+                if (!\in_array($handlerCallable, $seen, true)) {
+                    yield $alias => $seen[] = $handlerCallable;
                 }
             }
         }

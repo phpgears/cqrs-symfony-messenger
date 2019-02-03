@@ -36,6 +36,17 @@ class CommandHandlerLocator implements HandlersLocatorInterface
      */
     public function __construct(array $handlers)
     {
+        $handlers = \array_map(
+            function ($handler) {
+                if (!\is_array($handler)) {
+                    $handler = [$handler];
+                }
+
+                return $handler;
+            },
+            $handlers
+        );
+
         $this->handlersMap = $handlers;
     }
 
@@ -58,8 +69,12 @@ class CommandHandlerLocator implements HandlersLocatorInterface
                     ));
                 }
 
-                if (!\in_array($handler, $seen, true)) {
-                    yield $alias => $seen[] = $handler;
+                $handlerCallable = function (Command $command) use ($handler): void {
+                    $handler->handle($command);
+                };
+
+                if (!\in_array($handlerCallable, $seen, true)) {
+                    yield $alias => $seen[] = $handlerCallable;
                 }
             }
         }

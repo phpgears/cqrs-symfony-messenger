@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger;
 
+use Gears\CQRS\Command;
 use Gears\CQRS\CommandHandler;
 use Gears\CQRS\Symfony\Messenger\Exception\InvalidCommandHandlerException;
 use Psr\Container\ContainerInterface;
@@ -61,8 +62,12 @@ class ContainerAwareCommandHandlerLocator extends CommandHandlerLocator
                     ));
                 }
 
-                if (!\in_array($handler, $seen, true)) {
-                    yield $alias => $seen[] = $handler;
+                $handlerCallable = function (Command $command) use ($handler): void {
+                    $handler->handle($command);
+                };
+
+                if (!\in_array($handlerCallable, $seen, true)) {
+                    yield $alias => $seen[] = $handlerCallable;
                 }
             }
         }

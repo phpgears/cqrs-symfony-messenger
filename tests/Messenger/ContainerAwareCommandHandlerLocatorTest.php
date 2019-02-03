@@ -67,7 +67,7 @@ class ContainerAwareCommandHandlerLocatorTest extends TestCase
         $envelope = new Envelope(CommandStub::instance());
 
         foreach ($locator->getHandlers($envelope) as $handler) {
-            $this->assertSame($commandHandler, $handler);
+            $this->assertInstanceOf(\Closure::class, $handler);
         }
     }
 }

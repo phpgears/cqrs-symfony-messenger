@@ -67,7 +67,7 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
         $envelope = new Envelope(QueryStub::instance());
 
         foreach ($locator->getHandlers($envelope) as $handler) {
-            $this->assertSame($queryHandler, $handler);
+            $this->assertInstanceOf(\Closure::class, $handler);
         }
     }
 }

@@ -58,7 +58,7 @@ class QueryHandlerLocatorTest extends TestCase
         $envelope = new Envelope(QueryStub::instance());
 
         foreach ((new QueryHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
-            $this->assertSame($commandHandler, $handler);
+            $this->assertInstanceOf(\Closure::class, $handler);
         }
     }
 }

@@ -58,7 +58,7 @@ class CommandHandlerLocatorTest extends TestCase
         $envelope = new Envelope(CommandStub::instance());
 
         foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
-            $this->assertSame($commandHandler, $handler);
+            $this->assertInstanceOf(\Closure::class, $handler);
         }
     }
 }

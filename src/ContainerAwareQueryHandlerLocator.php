@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger;
 
+use Gears\CQRS\Query;
 use Gears\CQRS\QueryHandler;
 use Gears\CQRS\Symfony\Messenger\Exception\InvalidQueryHandlerException;
 use Psr\Container\ContainerInterface;
@@ -61,8 +62,12 @@ class ContainerAwareQueryHandlerLocator extends QueryHandlerLocator
                     ));
                 }
 
-                if (!\in_array($handler, $seen, true)) {
-                    yield $alias => $seen[] = $handler;
+                $handlerCallable = function (Query $query) use ($handler) {
+                    return $handler->handle($query);
+                };
+
+                if (!\in_array($handlerCallable, $seen, true)) {
+                    yield $alias => $seen[] = $handlerCallable;
                 }
             }
         }

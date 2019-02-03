@@ -25,6 +25,23 @@ use Symfony\Component\Messenger\MessageBusInterface;
  */
 class QueryBusTest extends TestCase
 {
+    /**
+     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\QueryReturnException
+     * @expectedExceptionMessageRegExp /^Query handler for .+\\QueryStub should return an instance of Gears\\DTO\\DTO/
+     */
+    public function testInvalidQueryResponse(): void
+    {
+        $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $messengerMock->expects($this->once())
+            ->method('dispatch')
+            ->will($this->returnValue(new Envelope(new \stdClass())));
+        /* @var MessageBusInterface $messengerMock */
+
+        (new QueryBus($messengerMock))->handle(QueryStub::instance());
+    }
+
     public function testHandling(): void
     {
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)

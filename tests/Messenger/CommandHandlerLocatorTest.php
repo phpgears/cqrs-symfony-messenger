@@ -32,7 +32,7 @@ class CommandHandlerLocatorTest extends TestCase
     {
         $envelope = new Envelope(new \stdClass());
 
-        foreach ((new CommandHandlerLocator([]))->getHandlersMap($envelope) as $handler) {
+        foreach ((new CommandHandlerLocator([]))->getHandlers($envelope) as $handler) {
             continue;
         }
     }
@@ -46,7 +46,7 @@ class CommandHandlerLocatorTest extends TestCase
         $commandMap = [CommandStub::class => ['']];
         $envelope = new Envelope(CommandStub::instance());
 
-        foreach ((new CommandHandlerLocator($commandMap))->getHandlersMap($envelope) as $handler) {
+        foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
             continue;
         }
     }
@@ -57,7 +57,7 @@ class CommandHandlerLocatorTest extends TestCase
         $commandMap = [CommandStub::class => [$commandHandler]];
         $envelope = new Envelope(CommandStub::instance());
 
-        foreach ((new CommandHandlerLocator($commandMap))->getHandlersMap($envelope) as $handler) {
+        foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
             $this->assertSame($commandHandler, $handler);
         }
     }

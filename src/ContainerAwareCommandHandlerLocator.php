@@ -45,7 +45,7 @@ class ContainerAwareCommandHandlerLocator extends CommandHandlerLocator
      *
      * @throws InvalidCommandHandlerException
      */
-    public function getHandlersMap(Envelope $envelope): iterable
+    public function getHandlers(Envelope $envelope): iterable
     {
         $seen = [];
 

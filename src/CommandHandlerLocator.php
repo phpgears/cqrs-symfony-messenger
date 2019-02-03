@@ -44,7 +44,7 @@ class CommandHandlerLocator implements HandlersLocatorInterface
      *
      * @throws InvalidCommandHandlerException
      */
-    public function getHandlersMap(Envelope $envelope): iterable
+    public function getHandlers(Envelope $envelope): iterable
     {
         $seen = [];
 

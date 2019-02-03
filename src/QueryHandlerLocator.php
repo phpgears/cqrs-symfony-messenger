@@ -44,7 +44,7 @@ class QueryHandlerLocator implements HandlersLocatorInterface
      *
      * @throws InvalidQueryHandlerException
      */
-    public function getHandlersMap(Envelope $envelope): iterable
+    public function getHandlers(Envelope $envelope): iterable
     {
         $seen = [];
 

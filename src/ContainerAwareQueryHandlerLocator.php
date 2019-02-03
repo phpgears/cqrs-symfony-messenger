@@ -45,7 +45,7 @@ class ContainerAwareQueryHandlerLocator extends QueryHandlerLocator
      *
      * @throws InvalidQueryHandlerException
      */
-    public function getHandlersMap(Envelope $envelope): iterable
+    public function getHandlers(Envelope $envelope): iterable
     {
         $seen = [];
 

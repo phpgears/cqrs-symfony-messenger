@@ -32,7 +32,7 @@ class QueryHandlerLocatorTest extends TestCase
     {
         $envelope = new Envelope(new \stdClass());
 
-        foreach ((new QueryHandlerLocator([]))->getHandlersMap($envelope) as $handler) {
+        foreach ((new QueryHandlerLocator([]))->getHandlers($envelope) as $handler) {
             continue;
         }
     }
@@ -46,7 +46,7 @@ class QueryHandlerLocatorTest extends TestCase
         $commandMap = [QueryStub::class => ['']];
         $envelope = new Envelope(QueryStub::instance());
 
-        foreach ((new QueryHandlerLocator($commandMap))->getHandlersMap($envelope) as $handler) {
+        foreach ((new QueryHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
             continue;
         }
     }
@@ -57,7 +57,7 @@ class QueryHandlerLocatorTest extends TestCase
         $commandMap = [QueryStub::class => [$commandHandler]];
         $envelope = new Envelope(QueryStub::instance());
 
-        foreach ((new QueryHandlerLocator($commandMap))->getHandlersMap($envelope) as $handler) {
+        foreach ((new QueryHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
             $this->assertSame($commandHandler, $handler);
         }
     }

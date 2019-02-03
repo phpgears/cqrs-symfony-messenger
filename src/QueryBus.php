@@ -13,9 +13,9 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger;
 
+use Gears\CQRS\Exception\QueryReturnException;
 use Gears\CQRS\Query;
 use Gears\CQRS\QueryBus as QueryBusInterface;
-use Gears\CQRS\Symfony\Messenger\Exception\QueryReturnException;
 use Gears\DTO\DTO;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;

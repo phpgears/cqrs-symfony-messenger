@@ -38,7 +38,7 @@ class CommandHandlerLocatorTest extends TestCase
     }
 
     /**
-     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidCommandHandlerException
+     * @expectedException \Gears\CQRS\Exception\InvalidCommandHandlerException
      * @expectedExceptionMessage Only one command handler allowed, 2 given
      */
     public function testInvalidCommandHandlersCount(): void
@@ -52,7 +52,7 @@ class CommandHandlerLocatorTest extends TestCase
     }
 
     /**
-     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidCommandHandlerException
+     * @expectedException \Gears\CQRS\Exception\InvalidCommandHandlerException
      * @expectedExceptionMessage Command handler must implement Gears\CQRS\CommandHandler interface, string given
      */
     public function testInvalidCommandHandler(): void

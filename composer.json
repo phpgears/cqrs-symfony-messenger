@@ -27,7 +27,7 @@
   "prefer-stable": true,
   "require": {
     "php": "^7.1",
-    "phpgears/cqrs": "~0.1",
+    "phpgears/cqrs": "~0.2",
     "symfony/messenger": "^4.2"
   },
   "require-dev": {

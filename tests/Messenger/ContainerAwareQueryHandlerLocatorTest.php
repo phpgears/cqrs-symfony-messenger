@@ -26,7 +26,7 @@ use Symfony\Component\Messenger\Envelope;
 class ContainerAwareQueryHandlerLocatorTest extends TestCase
 {
     /**
-     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidQueryHandlerException
+     * @expectedException \Gears\CQRS\Exception\InvalidQueryHandlerException
      * @expectedExceptionMessage Query handler must implement Gears\CQRS\QueryHandler interface, string given
      */
     public function testInvalidCommandHandler(): void

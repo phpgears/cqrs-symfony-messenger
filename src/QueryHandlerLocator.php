@@ -14,9 +14,9 @@ declare(strict_types=1);
 namespace Gears\CQRS\Symfony\Messenger;
 
 use Gears\CQRS\Exception\InvalidQueryException;
+use Gears\CQRS\Exception\InvalidQueryHandlerException;
 use Gears\CQRS\Query;
 use Gears\CQRS\QueryHandler;
-use Gears\CQRS\Symfony\Messenger\Exception\InvalidQueryHandlerException;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Handler\HandlersLocatorInterface;
 

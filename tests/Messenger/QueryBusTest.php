@@ -26,7 +26,7 @@ use Symfony\Component\Messenger\MessageBusInterface;
 class QueryBusTest extends TestCase
 {
     /**
-     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\QueryReturnException
+     * @expectedException \Gears\CQRS\Exception\QueryReturnException
      * @expectedExceptionMessageRegExp /^Query handler for .+\\QueryStub should return an instance of Gears\\DTO\\DTO/
      */
     public function testInvalidQueryResponse(): void

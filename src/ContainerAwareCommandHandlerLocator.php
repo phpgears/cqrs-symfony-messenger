@@ -15,7 +15,7 @@ namespace Gears\CQRS\Symfony\Messenger;
 
 use Gears\CQRS\Command;
 use Gears\CQRS\CommandHandler;
-use Gears\CQRS\Symfony\Messenger\Exception\InvalidCommandHandlerException;
+use Gears\CQRS\Exception\InvalidCommandHandlerException;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Envelope;
 

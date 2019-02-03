@@ -38,7 +38,7 @@ class QueryHandlerLocatorTest extends TestCase
     }
 
     /**
-     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidQueryHandlerException
+     * @expectedException \Gears\CQRS\Exception\InvalidQueryHandlerException
      * @expectedExceptionMessage Only one query handler allowed, 2 given
      */
     public function testInvalidQueryHandlersCount(): void
@@ -52,7 +52,7 @@ class QueryHandlerLocatorTest extends TestCase
     }
 
     /**
-     * @expectedException \Gears\CQRS\Symfony\Messenger\Exception\InvalidQueryHandlerException
+     * @expectedException \Gears\CQRS\Exception\InvalidQueryHandlerException
      * @expectedExceptionMessage Query handler must implement Gears\CQRS\QueryHandler interface, string given
      */
     public function testInvalidQueryHandler(): void

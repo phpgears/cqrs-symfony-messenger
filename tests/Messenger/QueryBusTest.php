@@ -19,6 +19,7 @@ use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryStub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 /**
  * Symfony Messenger query bus test.
@@ -31,12 +32,18 @@ class QueryBusTest extends TestCase
      */
     public function testInvalidQueryResponse(): void
     {
+        $callable = function ($class) {
+            return $class;
+        };
+        $returnEnvelope = (new Envelope(new \stdClass()))
+            ->with(HandledStamp::fromCallable($callable, $callable(new \stdClass())));
+
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $messengerMock->expects($this->once())
             ->method('dispatch')
-            ->will($this->returnValue(new Envelope(new \stdClass())));
+            ->will($this->returnValue($returnEnvelope));
         /* @var MessageBusInterface $messengerMock */
 
         (new QueryBus($messengerMock))->handle(QueryStub::instance());
@@ -44,12 +51,18 @@ class QueryBusTest extends TestCase
 
     public function testHandling(): void
     {
+        $callable = function ($class) {
+            return $class;
+        };
+        $returnEnvelope = (new Envelope(new \stdClass()))
+            ->with(HandledStamp::fromCallable($callable, $callable(DTOStub::instance())));
+
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $messengerMock->expects($this->once())
             ->method('dispatch')
-            ->will($this->returnValue(new Envelope(DTOStub::instance())));
+            ->will($this->returnValue($returnEnvelope));
         /* @var MessageBusInterface $messengerMock */
 
         (new QueryBus($messengerMock))->handle(QueryStub::instance());

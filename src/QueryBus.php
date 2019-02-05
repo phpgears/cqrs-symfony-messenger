@@ -19,6 +19,7 @@ use Gears\CQRS\QueryBus as QueryBusInterface;
 use Gears\DTO\DTO;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
 
 final class QueryBus implements QueryBusInterface
 {
@@ -46,7 +47,10 @@ final class QueryBus implements QueryBusInterface
      */
     public function handle(Query $query): DTO
     {
-        $dto = $this->wrappedMessageBus->dispatch(new Envelope($query))->getMessage();
+        /** @var HandledStamp $handlerResult */
+        $handlerResult = $this->wrappedMessageBus->dispatch(new Envelope($query))
+            ->last(HandledStamp::class);
+        $dto = $handlerResult->getResult();
 
         if (!$dto instanceof DTO) {
             throw new QueryReturnException(\sprintf(

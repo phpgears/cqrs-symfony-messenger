@@ -18,6 +18,7 @@ use Gears\CQRS\Query;
 use Gears\CQRS\QueryHandler;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 
 class ContainerAwareQueryHandlerLocator extends QueryHandlerLocator
 {
@@ -67,7 +68,9 @@ class ContainerAwareQueryHandlerLocator extends QueryHandlerLocator
                 };
 
                 if (!\in_array($handlerCallable, $seen, true)) {
-                    yield $alias => $seen[] = $handlerCallable;
+                    $seen[] = $handlerCallable;
+
+                    yield $alias => new HandlerDescriptor($handlerCallable);
                 }
             }
         }

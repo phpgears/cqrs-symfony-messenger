@@ -18,6 +18,7 @@ use Gears\CQRS\Symfony\Messenger\Tests\Stub\CommandHandlerStub;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\CommandStub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 
 /**
  * Command handler locator test.
@@ -72,7 +73,7 @@ class CommandHandlerLocatorTest extends TestCase
         $envelope = new Envelope(CommandStub::instance());
 
         foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
-            $this->assertInstanceOf(\Closure::class, $handler);
+            $this->assertInstanceOf(HandlerDescriptor::class, $handler);
         }
     }
 }

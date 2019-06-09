@@ -18,6 +18,7 @@ use Gears\CQRS\Exception\InvalidQueryHandlerException;
 use Gears\CQRS\Query;
 use Gears\CQRS\QueryHandler;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 use Symfony\Component\Messenger\Handler\HandlersLocatorInterface;
 
 class QueryHandlerLocator implements HandlersLocatorInterface
@@ -81,7 +82,9 @@ class QueryHandlerLocator implements HandlersLocatorInterface
                 };
 
                 if (!\in_array($handlerCallable, $seen, true)) {
-                    yield $alias => $seen[] = $handlerCallable;
+                    $seen[] = $handlerCallable;
+
+                    yield $alias => new HandlerDescriptor($handlerCallable);
                 }
             }
         }
@@ -98,6 +101,7 @@ class QueryHandlerLocator implements HandlersLocatorInterface
      */
     final protected function getQueryMap(Envelope $envelope): array
     {
+        /** @var mixed $query */
         $query = $envelope->getMessage();
 
         if (!$query instanceof Query) {

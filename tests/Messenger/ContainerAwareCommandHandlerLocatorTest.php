@@ -19,6 +19,7 @@ use Gears\CQRS\Symfony\Messenger\Tests\Stub\CommandStub;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 
 /**
  * PSR container aware command handler locator test.
@@ -67,7 +68,7 @@ class ContainerAwareCommandHandlerLocatorTest extends TestCase
         $envelope = new Envelope(CommandStub::instance());
 
         foreach ($locator->getHandlers($envelope) as $handler) {
-            $this->assertInstanceOf(\Closure::class, $handler);
+            $this->assertInstanceOf(HandlerDescriptor::class, $handler);
         }
     }
 }

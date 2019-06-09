@@ -18,6 +18,7 @@ use Gears\CQRS\CommandHandler;
 use Gears\CQRS\Exception\InvalidCommandException;
 use Gears\CQRS\Exception\InvalidCommandHandlerException;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 use Symfony\Component\Messenger\Handler\HandlersLocatorInterface;
 
 class CommandHandlerLocator implements HandlersLocatorInterface
@@ -81,7 +82,9 @@ class CommandHandlerLocator implements HandlersLocatorInterface
                 };
 
                 if (!\in_array($handlerCallable, $seen, true)) {
-                    yield $alias => $seen[] = $handlerCallable;
+                    $seen[] = $handlerCallable;
+
+                    yield $alias => new HandlerDescriptor($handlerCallable);
                 }
             }
         }
@@ -98,6 +101,7 @@ class CommandHandlerLocator implements HandlersLocatorInterface
      */
     final protected function getCommandMap(Envelope $envelope): array
     {
+        /** @var mixed $command */
         $command = $envelope->getMessage();
 
         if (!$command instanceof Command) {

@@ -18,6 +18,7 @@ use Gears\CQRS\Symfony\Messenger\Tests\Stub\DTOStub;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryStub;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
 
@@ -36,7 +37,7 @@ class QueryBusTest extends TestCase
             return $class;
         };
         $returnEnvelope = (new Envelope(new \stdClass()))
-            ->with(HandledStamp::fromCallable($callable, $callable(new \stdClass())));
+            ->with(HandledStamp::fromDescriptor(new HandlerDescriptor($callable), $callable(new \stdClass())));
 
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
             ->disableOriginalConstructor()
@@ -55,7 +56,7 @@ class QueryBusTest extends TestCase
             return $class;
         };
         $returnEnvelope = (new Envelope(new \stdClass()))
-            ->with(HandledStamp::fromCallable($callable, $callable(DTOStub::instance())));
+            ->with(HandledStamp::fromDescriptor(new HandlerDescriptor($callable), $callable(DTOStub::instance())));
 
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
             ->disableOriginalConstructor()

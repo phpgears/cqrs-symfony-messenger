@@ -19,6 +19,7 @@ use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryStub;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 
 /**
  * PSR container aware query handler locator test.
@@ -67,7 +68,7 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
         $envelope = new Envelope(QueryStub::instance());
 
         foreach ($locator->getHandlers($envelope) as $handler) {
-            $this->assertInstanceOf(\Closure::class, $handler);
+            $this->assertInstanceOf(HandlerDescriptor::class, $handler);
         }
     }
 }

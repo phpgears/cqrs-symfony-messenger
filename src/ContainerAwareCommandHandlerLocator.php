@@ -18,6 +18,7 @@ use Gears\CQRS\CommandHandler;
 use Gears\CQRS\Exception\InvalidCommandHandlerException;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Envelope;
+use Symfony\Component\Messenger\Handler\HandlerDescriptor;
 
 class ContainerAwareCommandHandlerLocator extends CommandHandlerLocator
 {
@@ -67,7 +68,9 @@ class ContainerAwareCommandHandlerLocator extends CommandHandlerLocator
                 };
 
                 if (!\in_array($handlerCallable, $seen, true)) {
-                    yield $alias => $seen[] = $handlerCallable;
+                    $seen[] = $handlerCallable;
+
+                    yield $alias => new HandlerDescriptor($handlerCallable);
                 }
             }
         }

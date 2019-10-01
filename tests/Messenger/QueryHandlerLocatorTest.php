@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger\Tests;
 
+use Gears\CQRS\Exception\InvalidQueryException;
+use Gears\CQRS\Exception\InvalidQueryHandlerException;
 use Gears\CQRS\Symfony\Messenger\QueryHandlerLocator;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryHandlerStub;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryStub;
@@ -25,12 +27,11 @@ use Symfony\Component\Messenger\Handler\HandlerDescriptor;
  */
 class QueryHandlerLocatorTest extends TestCase
 {
-    /**
-     * @expectedException \Gears\CQRS\Exception\InvalidQueryException
-     * @expectedExceptionMessage Query must implement Gears\CQRS\Query interface, stdClass given
-     */
     public function testInvalidQuery(): void
     {
+        $this->expectException(InvalidQueryException::class);
+        $this->expectExceptionMessage('Query must implement Gears\CQRS\Query interface, stdClass given');
+
         $envelope = new Envelope(new \stdClass());
 
         foreach ((new QueryHandlerLocator([]))->getHandlers($envelope) as $handler) {
@@ -38,12 +39,11 @@ class QueryHandlerLocatorTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Gears\CQRS\Exception\InvalidQueryHandlerException
-     * @expectedExceptionMessage Only one query handler allowed, 2 given
-     */
     public function testInvalidQueryHandlersCount(): void
     {
+        $this->expectException(InvalidQueryHandlerException::class);
+        $this->expectExceptionMessage('Only one query handler allowed, 2 given');
+
         $commandMap = [QueryStub::class => ['', '']];
         $envelope = new Envelope(new \stdClass());
 
@@ -52,12 +52,11 @@ class QueryHandlerLocatorTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Gears\CQRS\Exception\InvalidQueryHandlerException
-     * @expectedExceptionMessage Query handler must implement Gears\CQRS\QueryHandler interface, string given
-     */
     public function testInvalidQueryHandler(): void
     {
+        $this->expectException(InvalidQueryHandlerException::class);
+        $this->expectExceptionMessage('Query handler must implement Gears\CQRS\QueryHandler interface, string given');
+
         $commandMap = [QueryStub::class => ['']];
         $envelope = new Envelope(QueryStub::instance());
 
@@ -73,7 +72,7 @@ class QueryHandlerLocatorTest extends TestCase
         $envelope = new Envelope(QueryStub::instance());
 
         foreach ((new QueryHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
-            $this->assertInstanceOf(HandlerDescriptor::class, $handler);
+            static::assertInstanceOf(HandlerDescriptor::class, $handler);
         }
     }
 }

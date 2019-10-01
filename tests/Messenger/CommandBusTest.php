@@ -29,9 +29,9 @@ class CommandBusTest extends TestCase
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $messengerMock->expects($this->once())
+        $messengerMock->expects(static::once())
             ->method('dispatch')
-            ->will($this->returnValue(new Envelope(new \stdClass())));
+            ->will(static::returnValue(new Envelope(new \stdClass())));
         /* @var MessageBusInterface $messengerMock */
 
         (new CommandBus($messengerMock))->handle(CommandStub::instance());

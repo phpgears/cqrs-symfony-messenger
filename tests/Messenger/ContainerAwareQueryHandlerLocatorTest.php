@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger\Tests;
 
+use Gears\CQRS\Exception\InvalidQueryHandlerException;
 use Gears\CQRS\Symfony\Messenger\ContainerAwareQueryHandlerLocator;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryHandlerStub;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryStub;
@@ -26,19 +27,18 @@ use Symfony\Component\Messenger\Handler\HandlerDescriptor;
  */
 class ContainerAwareQueryHandlerLocatorTest extends TestCase
 {
-    /**
-     * @expectedException \Gears\CQRS\Exception\InvalidQueryHandlerException
-     * @expectedExceptionMessage Query handler must implement Gears\CQRS\QueryHandler interface, string given
-     */
     public function testInvalidCommandHandler(): void
     {
+        $this->expectException(InvalidQueryHandlerException::class);
+        $this->expectExceptionMessage('Query handler must implement Gears\CQRS\QueryHandler interface, string given');
+
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $container->expects($this->once())
+        $container->expects(static::once())
             ->method('get')
             ->with('handler')
-            ->will($this->returnValue(''));
+            ->will(static::returnValue(''));
         /* @var ContainerInterface $container */
 
         $queryMap = [QueryStub::class => ['handler']];
@@ -57,10 +57,10 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $container->expects($this->once())
+        $container->expects(static::once())
             ->method('get')
             ->with('handler')
-            ->will($this->returnValue($queryHandler));
+            ->will(static::returnValue($queryHandler));
         /* @var ContainerInterface $container */
 
         $queryMap = [QueryStub::class => ['handler']];
@@ -68,7 +68,7 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
         $envelope = new Envelope(QueryStub::instance());
 
         foreach ($locator->getHandlers($envelope) as $handler) {
-            $this->assertInstanceOf(HandlerDescriptor::class, $handler);
+            static::assertInstanceOf(HandlerDescriptor::class, $handler);
         }
     }
 }

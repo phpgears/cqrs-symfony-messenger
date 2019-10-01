@@ -13,6 +13,8 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger\Tests;
 
+use Gears\CQRS\Exception\InvalidCommandException;
+use Gears\CQRS\Exception\InvalidCommandHandlerException;
 use Gears\CQRS\Symfony\Messenger\CommandHandlerLocator;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\CommandHandlerStub;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\CommandStub;
@@ -25,12 +27,11 @@ use Symfony\Component\Messenger\Handler\HandlerDescriptor;
  */
 class CommandHandlerLocatorTest extends TestCase
 {
-    /**
-     * @expectedException \Gears\CQRS\Exception\InvalidCommandException
-     * @expectedExceptionMessage Command must implement Gears\CQRS\Command interface, stdClass given
-     */
     public function testInvalidCommand(): void
     {
+        $this->expectException(InvalidCommandException::class);
+        $this->expectExceptionMessage('Command must implement Gears\CQRS\Command interface, stdClass given');
+
         $envelope = new Envelope(new \stdClass());
 
         foreach ((new CommandHandlerLocator([]))->getHandlers($envelope) as $handler) {
@@ -38,12 +39,11 @@ class CommandHandlerLocatorTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Gears\CQRS\Exception\InvalidCommandHandlerException
-     * @expectedExceptionMessage Only one command handler allowed, 2 given
-     */
     public function testInvalidCommandHandlersCount(): void
     {
+        $this->expectException(InvalidCommandHandlerException::class);
+        $this->expectExceptionMessage('Only one command handler allowed, 2 given');
+
         $commandMap = [CommandStub::class => ['', '']];
         $envelope = new Envelope(new \stdClass());
 
@@ -52,12 +52,13 @@ class CommandHandlerLocatorTest extends TestCase
         }
     }
 
-    /**
-     * @expectedException \Gears\CQRS\Exception\InvalidCommandHandlerException
-     * @expectedExceptionMessage Command handler must implement Gears\CQRS\CommandHandler interface, string given
-     */
     public function testInvalidCommandHandler(): void
     {
+        $this->expectException(InvalidCommandHandlerException::class);
+        $this->expectExceptionMessage(
+            'Command handler must implement Gears\CQRS\CommandHandler interface, string given'
+        );
+
         $commandMap = [CommandStub::class => ['']];
         $envelope = new Envelope(CommandStub::instance());
 
@@ -73,7 +74,7 @@ class CommandHandlerLocatorTest extends TestCase
         $envelope = new Envelope(CommandStub::instance());
 
         foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
-            $this->assertInstanceOf(HandlerDescriptor::class, $handler);
+            static::assertInstanceOf(HandlerDescriptor::class, $handler);
         }
     }
 }

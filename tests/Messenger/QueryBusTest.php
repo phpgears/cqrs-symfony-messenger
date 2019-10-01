@@ -13,6 +13,7 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger\Tests;
 
+use Gears\CQRS\Exception\QueryReturnException;
 use Gears\CQRS\Symfony\Messenger\QueryBus;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\DTOStub;
 use Gears\CQRS\Symfony\Messenger\Tests\Stub\QueryStub;
@@ -27,12 +28,13 @@ use Symfony\Component\Messenger\Stamp\HandledStamp;
  */
 class QueryBusTest extends TestCase
 {
-    /**
-     * @expectedException \Gears\CQRS\Exception\QueryReturnException
-     * @expectedExceptionMessageRegExp /^Query handler for .+\\QueryStub should return an instance of Gears\\DTO\\DTO/
-     */
     public function testInvalidQueryResponse(): void
     {
+        $this->expectException(QueryReturnException::class);
+        $this->expectExceptionMessageRegExp(
+            '/^Query handler for .+\\\QueryStub should return an instance of Gears\\\DTO\\\DTO/'
+        );
+
         $callable = function ($class) {
             return $class;
         };
@@ -42,9 +44,9 @@ class QueryBusTest extends TestCase
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $messengerMock->expects($this->once())
+        $messengerMock->expects(static::once())
             ->method('dispatch')
-            ->will($this->returnValue($returnEnvelope));
+            ->will(static::returnValue($returnEnvelope));
         /* @var MessageBusInterface $messengerMock */
 
         (new QueryBus($messengerMock))->handle(QueryStub::instance());
@@ -61,9 +63,9 @@ class QueryBusTest extends TestCase
         $messengerMock = $this->getMockBuilder(MessageBusInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
-        $messengerMock->expects($this->once())
+        $messengerMock->expects(static::once())
             ->method('dispatch')
-            ->will($this->returnValue($returnEnvelope));
+            ->will(static::returnValue($returnEnvelope));
         /* @var MessageBusInterface $messengerMock */
 
         (new QueryBus($messengerMock))->handle(QueryStub::instance());

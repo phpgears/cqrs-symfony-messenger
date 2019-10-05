@@ -30,7 +30,7 @@ class CommandHandlerLocatorTest extends TestCase
     public function testInvalidCommand(): void
     {
         $this->expectException(InvalidCommandException::class);
-        $this->expectExceptionMessage('Command must implement Gears\CQRS\Command interface, stdClass given');
+        $this->expectExceptionMessage('Command must implement "Gears\CQRS\Command" interface, "stdClass" given');
 
         $envelope = new Envelope(new \stdClass());
 
@@ -56,7 +56,7 @@ class CommandHandlerLocatorTest extends TestCase
     {
         $this->expectException(InvalidCommandHandlerException::class);
         $this->expectExceptionMessage(
-            'Command handler must implement Gears\CQRS\CommandHandler interface, string given'
+            'Command handler must implement "Gears\CQRS\CommandHandler" interface, "string" given'
         );
 
         $commandMap = [CommandStub::class => ['']];

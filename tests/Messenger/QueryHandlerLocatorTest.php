@@ -75,6 +75,7 @@ class QueryHandlerLocatorTest extends TestCase
 
         foreach ((new QueryHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
             static::assertInstanceOf(HandlerDescriptor::class, $handler);
+            static::assertTrue($handler->getHandler()(QueryStub::instance()));
         }
     }
 }

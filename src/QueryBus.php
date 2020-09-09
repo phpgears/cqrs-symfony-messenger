@@ -13,10 +13,8 @@ declare(strict_types=1);
 
 namespace Gears\CQRS\Symfony\Messenger;
 
-use Gears\CQRS\Exception\QueryReturnException;
 use Gears\CQRS\Query;
 use Gears\CQRS\QueryBus as QueryBusInterface;
-use Gears\DTO\DTO;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\MessageBusInterface;
 use Symfony\Component\Messenger\Stamp\HandledStamp;
@@ -42,24 +40,13 @@ final class QueryBus implements QueryBusInterface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws QueryReturnException
      */
-    public function handle(Query $query): DTO
+    public function handle(Query $query)
     {
         /** @var HandledStamp $handlerResult */
         $handlerResult = $this->wrappedMessageBus->dispatch(new Envelope($query))
             ->last(HandledStamp::class);
-        $dto = $handlerResult->getResult();
 
-        if (!$dto instanceof DTO) {
-            throw new QueryReturnException(\sprintf(
-                'Query handler for %s should return an instance of %s',
-                \get_class($query),
-                DTO::class
-            ));
-        }
-
-        return $dto;
+        return $handlerResult->getResult();
     }
 }

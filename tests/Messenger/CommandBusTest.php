@@ -31,7 +31,7 @@ class CommandBusTest extends TestCase
             ->getMock();
         $messengerMock->expects(static::once())
             ->method('dispatch')
-            ->will(static::returnValue(new Envelope(new \stdClass())));
+            ->willReturn(new Envelope(CommandStub::instance()));
         /* @var MessageBusInterface $messengerMock */
 
         (new CommandBus($messengerMock))->handle(CommandStub::instance());

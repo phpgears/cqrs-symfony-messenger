@@ -38,7 +38,7 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
         $container->expects(static::once())
             ->method('get')
             ->with('handler')
-            ->will(static::returnValue(''));
+            ->willReturn('');
         /* @var ContainerInterface $container */
 
         $queryMap = [QueryStub::class => ['handler']];
@@ -50,18 +50,18 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
         }
     }
 
-    public function testQueryHandler(): void
+    public function testHandler(): void
     {
-        $queryHandler = new QueryHandlerStub();
-
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()
             ->getMock();
         $container->expects(static::once())
             ->method('get')
             ->with('handler')
-            ->will(static::returnValue($queryHandler));
+            ->willReturn(new QueryHandlerStub());
         /* @var ContainerInterface $container */
+
+        $query = QueryStub::instance();
 
         $queryMap = [QueryStub::class => ['handler']];
         $locator = new ContainerAwareQueryHandlerLocator($container, $queryMap);
@@ -69,6 +69,7 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
 
         foreach ($locator->getHandlers($envelope) as $handler) {
             static::assertInstanceOf(HandlerDescriptor::class, $handler);
+            static::assertTrue($handler->getHandler()($query));
         }
     }
 }

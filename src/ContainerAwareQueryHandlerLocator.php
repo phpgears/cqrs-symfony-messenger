@@ -16,7 +16,6 @@ namespace Gears\CQRS\Symfony\Messenger;
 use Gears\CQRS\Exception\InvalidQueryHandlerException;
 use Gears\CQRS\Query;
 use Gears\CQRS\QueryHandler;
-use Gears\DTO\DTO;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Messenger\Envelope;
 use Symfony\Component\Messenger\Handler\HandlerDescriptor;
@@ -64,7 +63,7 @@ class ContainerAwareQueryHandlerLocator extends QueryHandlerLocator
                     ));
                 }
 
-                $handlerCallable = function (Query $query) use ($handler): DTO {
+                $handlerCallable = function (Query $query) use ($handler) {
                     return $handler->handle($query);
                 };
 

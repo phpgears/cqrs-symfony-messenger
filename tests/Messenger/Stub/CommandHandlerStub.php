@@ -14,7 +14,6 @@ declare(strict_types=1);
 namespace Gears\CQRS\Symfony\Messenger\Tests\Stub;
 
 use Gears\CQRS\AbstractCommandHandler;
-use Gears\CQRS\Command;
 
 /**
  * Command handler stub class.
@@ -24,15 +23,15 @@ class CommandHandlerStub extends AbstractCommandHandler
     /**
      * {@inheritdoc}
      */
-    protected function getSupportedCommandType(): string
+    protected function getSupportedCommandTypes(): array
     {
-        return CommandStub::class;
+        return [CommandStub::class];
     }
 
     /**
-     * {@inheritdoc}
+     * @param CommandStub $command
      */
-    protected function handleCommand(Command $command): void
+    protected function handleCommandStub(CommandStub $command): void
     {
     }
 }

@@ -75,6 +75,7 @@ class CommandHandlerLocatorTest extends TestCase
 
         foreach ((new CommandHandlerLocator($commandMap))->getHandlers($envelope) as $handler) {
             static::assertInstanceOf(HandlerDescriptor::class, $handler);
+            static::assertNull($handler->getHandler()(CommandStub::instance()));
         }
     }
 }

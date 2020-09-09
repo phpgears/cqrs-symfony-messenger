@@ -40,7 +40,7 @@ class ContainerAwareCommandHandlerLocatorTest extends TestCase
         $container->expects(static::once())
             ->method('get')
             ->with('handler')
-            ->will(static::returnValue(''));
+            ->willReturn('');
         /* @var ContainerInterface $container */
 
         $commandMap = [CommandStub::class => ['handler']];
@@ -62,8 +62,10 @@ class ContainerAwareCommandHandlerLocatorTest extends TestCase
         $container->expects(static::once())
             ->method('get')
             ->with('handler')
-            ->will(static::returnValue($commandHandler));
+            ->willReturn($commandHandler);
         /* @var ContainerInterface $container */
+
+        $command = CommandStub::instance();
 
         $commandMap = [CommandStub::class => ['handler']];
         $locator = new ContainerAwareCommandHandlerLocator($container, $commandMap);
@@ -71,6 +73,7 @@ class ContainerAwareCommandHandlerLocatorTest extends TestCase
 
         foreach ($locator->getHandlers($envelope) as $handler) {
             static::assertInstanceOf(HandlerDescriptor::class, $handler);
+            static::assertNull($handler->getHandler()($command));
         }
     }
 }

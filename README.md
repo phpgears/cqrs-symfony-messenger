@@ -32,6 +32,8 @@ require './vendor/autoload.php';
 
 ### Commands Bus
 
+Just as simple as adding HandleMessageMiddleware to a Messenger's middleware list
+
 ```php
 use Gears\CQRS\Symfony\Messenger\CommandBus;
 use Gears\CQRS\Symfony\Messenger\CommandHandlerLocator;
@@ -50,6 +52,10 @@ $commandBus = new CommandBus($messengerBus);
 $commandBus->handle($command);
 ```
 
+#### Asynchronicity
+
+Simply use Symfony Messenger transports as you would with any Messenger's bus
+
 ### Query Bus
 
 ```php
@@ -66,7 +72,7 @@ $messengerBus = new MessageBus([
 
 $queryBus = new QueryBus($messengerBus);
 
-/** @var \Gears\CQRS\Command $query */
+/** @var \Gears\CQRS\Query $query */
 $result = $queryBus->handle($query);
 ```
 

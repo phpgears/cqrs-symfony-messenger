@@ -30,7 +30,7 @@ class QueryHandlerLocatorTest extends TestCase
     public function testInvalidQuery(): void
     {
         $this->expectException(InvalidQueryException::class);
-        $this->expectExceptionMessage('Query must implement "Gears\CQRS\Query" interface, "stdClass" given');
+        $this->expectExceptionMessage('Query must implement "Gears\CQRS\Query" interface, "stdClass" given.');
 
         $envelope = new Envelope(new \stdClass());
 
@@ -42,7 +42,7 @@ class QueryHandlerLocatorTest extends TestCase
     public function testInvalidQueryHandlersCount(): void
     {
         $this->expectException(InvalidQueryHandlerException::class);
-        $this->expectExceptionMessage('Only one query handler allowed, 2 given');
+        $this->expectExceptionMessage('Only one query handler allowed, 2 given.');
 
         $commandMap = [QueryStub::class => ['', '']];
         $envelope = new Envelope(new \stdClass());
@@ -56,7 +56,7 @@ class QueryHandlerLocatorTest extends TestCase
     {
         $this->expectException(InvalidQueryHandlerException::class);
         $this->expectExceptionMessage(
-            'Query handler must implement "Gears\CQRS\QueryHandler" interface, "string" given'
+            'Query handler must implement "Gears\CQRS\QueryHandler" interface, "string" given.'
         );
 
         $commandMap = [QueryStub::class => ['']];

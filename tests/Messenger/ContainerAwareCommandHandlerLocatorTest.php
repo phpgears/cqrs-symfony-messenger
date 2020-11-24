@@ -31,7 +31,7 @@ class ContainerAwareCommandHandlerLocatorTest extends TestCase
     {
         $this->expectException(InvalidCommandHandlerException::class);
         $this->expectExceptionMessage(
-            'Command handler must implement Gears\CQRS\CommandHandler interface, string given'
+            'Command handler must implement Gears\CQRS\CommandHandler interface, string given.'
         );
 
         $container = $this->getMockBuilder(ContainerInterface::class)

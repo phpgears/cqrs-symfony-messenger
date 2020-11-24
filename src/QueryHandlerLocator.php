@@ -46,7 +46,7 @@ class QueryHandlerLocator implements HandlersLocatorInterface
 
                 if (\count($handler) !== 1) {
                     throw new InvalidQueryHandlerException(\sprintf(
-                        'Only one query handler allowed, %s given',
+                        'Only one query handler allowed, %s given.',
                         \count($handler)
                     ));
                 }
@@ -72,7 +72,7 @@ class QueryHandlerLocator implements HandlersLocatorInterface
             foreach ($this->handlersMap[$type] ?? [] as $alias => $handler) {
                 if (!$handler instanceof QueryHandler) {
                     throw new InvalidQueryHandlerException(\sprintf(
-                        'Query handler must implement "%s" interface, "%s" given',
+                        'Query handler must implement "%s" interface, "%s" given.',
                         QueryHandler::class,
                         \is_object($handler) ? \get_class($handler) : \gettype($handler)
                     ));
@@ -107,7 +107,7 @@ class QueryHandlerLocator implements HandlersLocatorInterface
 
         if (!$query instanceof Query) {
             throw new InvalidQueryException(\sprintf(
-                'Query must implement "%s" interface, "%s" given',
+                'Query must implement "%s" interface, "%s" given.',
                 Query::class,
                 \is_object($query) ? \get_class($query) : \gettype($query)
             ));

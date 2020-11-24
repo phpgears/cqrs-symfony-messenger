@@ -30,7 +30,7 @@ class ContainerAwareQueryHandlerLocatorTest extends TestCase
     public function testInvalidCommandHandler(): void
     {
         $this->expectException(InvalidQueryHandlerException::class);
-        $this->expectExceptionMessage('Query handler must implement Gears\CQRS\QueryHandler interface, string given');
+        $this->expectExceptionMessage('Query handler must implement Gears\CQRS\QueryHandler interface, string given.');
 
         $container = $this->getMockBuilder(ContainerInterface::class)
             ->disableOriginalConstructor()

@@ -57,7 +57,7 @@ class ContainerAwareCommandHandlerLocator extends CommandHandlerLocator
 
                 if (!$handler instanceof CommandHandler) {
                     throw new InvalidCommandHandlerException(\sprintf(
-                        'Command handler must implement %s interface, %s given',
+                        'Command handler must implement %s interface, %s given.',
                         CommandHandler::class,
                         \is_object($handler) ? \get_class($handler) : \gettype($handler)
                     ));

@@ -58,7 +58,7 @@ class ContainerAwareQueryHandlerLocator extends QueryHandlerLocator
 
                 if (!$handler instanceof QueryHandler) {
                     throw new InvalidQueryHandlerException(\sprintf(
-                        'Query handler must implement %s interface, %s given',
+                        'Query handler must implement %s interface, %s given.',
                         QueryHandler::class,
                         \is_object($handler) ? \get_class($handler) : \gettype($handler)
                     ));

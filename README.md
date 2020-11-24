@@ -2,7 +2,7 @@
 [![Latest Version](https://img.shields.io/packagist/v/phpgears/cqrs-symfony-messenger.svg?style=flat-square)](https://packagist.org/packages/phpgears/cqrs-symfony-messenger)
 [![License](https://img.shields.io/github/license/phpgears/cqrs-symfony-messenger.svg?style=flat-square)](https://github.com/phpgears/cqrs-symfony-messenger/blob/master/LICENSE)
 
-[![Build Status](https://img.shields.io/travis/phpgears/cqrs-symfony-messenger.svg?style=flat-square)](https://travis-ci.org/phpgears/cqrs-symfony-messenger)
+[![Build Status](https://img.shields.io/travis/com/phpgears/cqrs-symfony-messenger.svg?style=flat-square)](https://travis-ci.com/github/phpgears/cqrs-symfony-messenger)
 [![Style Check](https://styleci.io/repos/168892182/shield)](https://styleci.io/repos/168892182)
 [![Code Quality](https://img.shields.io/scrutinizer/g/phpgears/cqrs-symfony-messenger.svg?style=flat-square)](https://scrutinizer-ci.com/g/phpgears/cqrs-symfony-messenger)
 [![Code Coverage](https://img.shields.io/coveralls/phpgears/cqrs-symfony-messenger.svg?style=flat-square)](https://coveralls.io/github/phpgears/cqrs-symfony-messenger)
